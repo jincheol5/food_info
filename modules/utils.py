@@ -8,7 +8,7 @@ class ModelUtils:
     def save_pretrained_llm_from_HF(HF_path:str,model_name:str,model_type:Literal['base','causal'],config:dict):
         """
         config
-            dtype: "auto"
+            torch_dtype: "auto"
             device_map: "auto"
             trust_remote_code: bool
         """
@@ -18,15 +18,13 @@ class ModelUtils:
             case 'base':
                 model=AutoModel.from_pretrained(
                     pretrained_model_name_or_path=HF_path,
-                    dtype=config['dtype'],
-                    device_map=config['device_map'],
+                    torch_dtype=config['torch_dtype'],
                     trust_remote_code=config['trust_remote_code']
                 )
             case 'causal':
                 model=AutoModelForCausalLM.from_pretrained(
                     pretrained_model_name_or_path=HF_path,
-                    dtype=config['dtype'],
-                    device_map=config['device_map'],
+                    torch_dtype=config['torch_dtype'],
                     trust_remote_code=config['trust_remote_code']
                 )
         model.save_pretrained(model_path)
@@ -49,7 +47,7 @@ class ModelUtils:
     def load_local_llm(model_name:str,model_type:Literal['base','causal'],config:dict):
         """
         config
-            dtype: torch.bfloat16 (GPU)
+            torch_dtype: torch.bfloat16 (GPU)
             device_map: "auto"
             trust_remote_code: bool
             use_safetensors: bool
@@ -59,15 +57,14 @@ class ModelUtils:
             case 'base':
                 model=AutoModel.from_pretrained(
                     model_path, 
-                    dtype=config['dtype'],
-                    device_map=config['device_map'],
+                    torch_dtype=config['torch_dtype'],
                     trust_remote_code=config['trust_remote_code'],
                     use_safetensors=config['use_safetensors']
+                )
             case 'causal':
                 model=AutoModelForCausalLM.from_pretrained(
                     model_path, 
-                    dtype=config['dtype'],
-                    device_map=config['device_map'],
+                    torch_dtype=config['torch_dtype'],
                     trust_remote_code=config['trust_remote_code'],
                     use_safetensors=config['use_safetensors']
                 )

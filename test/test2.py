@@ -28,6 +28,7 @@ def run_deepseek_ocr(inputs:dict):
             save_results=True
         )
 
+    print(f"<<OCR result>>",end="\n\n")
     result_file=output_path / "result.mmd"
     with open(result_file,"r",encoding="utf-8") as f:
         raw_text=f.read()
@@ -39,7 +40,7 @@ def main(config:dict):
         model_type="base",
         config=config
     )
-    model=model.eval().cuda().to(torch.bfloat16)
+    model=model.eval().cuda()
 
     tokenizer=ModelUtils.load_local_tokenizer(
         model_name="DeepSeek-OCR",
@@ -59,8 +60,7 @@ def main(config:dict):
 
 if __name__=="__main__":
     config={
-        "dtype": torch.bfloat16,
-        "device_map": "auto",
+        "torch_dtype": torch.bfloat16,
         "trust_remote_code": True,
         "use_safetensors": True
     }
