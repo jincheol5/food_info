@@ -55,8 +55,11 @@ def main(config:dict):
     }
 
     ocr_runnable=RunnableLambda(run_deepseek_ocr)
-    result=ocr_runnable.invoke(inputs)
-    print(result)
+    raw_text=ocr_runnable.invoke(inputs)
+
+    ### raw_text -> json 코드 작성
+
+
 
 if __name__=="__main__":
     config={
