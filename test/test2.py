@@ -1,4 +1,5 @@
 import torch
+import argparse
 from modules import OCR_VLM_Runnable,Nutrition_LLM_Runnable,NutritionSchema
 from pathlib import Path
 from langchain_core.output_parsers import PydanticOutputParser
@@ -34,5 +35,8 @@ def main(image_path):
     print(result)
 
 if __name__=="__main__":
-    image_path=Path(__file__).resolve().parent.parent / "food" / "nutrition_1.png"
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--image_name",type=int,default=f"nutri_1")
+    args=parser.parse_args()
+    image_path=Path(__file__).resolve().parent.parent / "food" / f"{args.image_name}.png"
     main(image_path=image_path)
