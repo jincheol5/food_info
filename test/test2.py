@@ -25,6 +25,7 @@ def main(image_path):
     parser=PydanticOutputParser(pydantic_object=NutritionSchema)
     
     chain=ocr_vlm_runnable | nutri_llm_runnable | parser
+    result=None
     try:
         result=chain.invoke(image_path) # pydantic 객체
         result=result.model_dump(mode="json")
@@ -36,7 +37,7 @@ def main(image_path):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
-    parser.add_argument("--image_name",type=int,default=f"nutri_1")
+    parser.add_argument("--image_name",type=str,default=f"nutri_1")
     args=parser.parse_args()
     image_path=Path(__file__).resolve().parent.parent / "food" / f"{args.image_name}.png"
     main(image_path=image_path)
