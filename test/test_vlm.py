@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 from modules import ModelUtils
 
-def main(image_name:str):
+def main(prompt:str,image_name:str):
     """
     """
     model_config={
@@ -24,7 +24,8 @@ def main(image_name:str):
         model_name="DeepSeek-OCR",
         model_config=model_config
     )
-    prompt="<image>\nFree OCR."
+
+    prompt=f"<image>\n{prompt}"
     with torch.no_grad():
         model.infer(
             tokenizer,
@@ -46,5 +47,6 @@ def main(image_name:str):
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("--image_name",type=str,default=f"nutri_1")
+    parser.add_argument("--prompt",type=str,default=f"Free OCR.")
     args=parser.parse_args()
-    main(image_name=args.image_name)
+    main(prompt=args.prompt,image_name=args.image_name)
