@@ -1,4 +1,5 @@
 from pydantic import BaseModel,Field
+from typing import List
 from enum import Enum
 
 class ServingUnit(str,Enum):
@@ -30,3 +31,7 @@ class NutritionSchema(BaseModel):
     saturatedFat:NutritionValue=Field(default_factory=NutritionValue)
     cholesterol:NutritionValue=Field(default_factory=lambda:NutritionValue(unit=NutritionUnit.mg))
     protein:NutritionValue=Field(default_factory=NutritionValue)
+
+class IngredientSchema(BaseModel):
+    ingredients:str=""
+    allergens:List[str]=Field(default_factory=list)
