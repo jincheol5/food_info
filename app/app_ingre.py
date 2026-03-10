@@ -3,13 +3,15 @@ from langchain_core.messages import HumanMessage
 from modules import build_ingredient_user_prompt
 from pathlib import Path
 
-image_path=str(Path(__file__).resolve().parent.parent / "food" / "ingredient" / "2087686023125.png")
+image_path=str(Path(__file__).resolve().parent.parent / "food" / "ingredient" / "2087686040757.png")
 # 2087686023125
 # 2087686040757
+# 2700038864145
 
 vlm=ChatOllama(
     model="qwen3.5:9b",
-    base_url="http://localhost:11435"
+    temperature=0,
+    base_url="http://localhost:11434"
 )
 
 msg=HumanMessage(
