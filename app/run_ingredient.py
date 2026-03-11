@@ -35,7 +35,7 @@ def main(app_config:dict):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
-    parser.add_argument("--model_name",type=str,default="qwen3-vl:4b")
+    parser.add_argument("--model_name",type=str,default="qwen3.5:0.8b")
     parser.add_argument("--port",type=int,default=11434)
     parser.add_argument("--image_name",type=str,default="ex_1")
     args=parser.parse_args()
