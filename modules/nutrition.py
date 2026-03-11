@@ -10,15 +10,22 @@ class State(TypedDict):
     vlm_output:str
     parserd_json:dict
     valid:bool
+    failed_examples:list[str]
 
 def vlm_node(state:State):
     print("Running VLM")
     vlm=state['vlm']
+
+    fail_examples_text=""
+    if state.get("fail_examples"):
+        fail_examples_text=f"\n\nPrevious invalid outputs (DO NOT repeat):\n"
+        for i,ex in enumerate(state["fail_examples"]):
+            fail_examples_text+=f"\nInvalid Example {i+1}:\n{ex}\n"
     prompt=HumanMessage(
         content=[
             {
                 "type":"text",
-                "text":build_nutrition_user_prompt()
+                "text":build_nutrition_user_prompt()+fail_examples_text
             },
             {
                 "type":"image_url",
@@ -42,6 +49,9 @@ def parser_node(state:State):
     except Exception as e:
         print("Parsing failed:",e)
         state["valid"]=False
+        if "fail_examples" not in state:
+            state["fail_examples"]=[]
+        state["fail_examples"].append(state["vlm_output"])
     return state
 
 def check_valid(state:State):
