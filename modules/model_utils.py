@@ -1,16 +1,16 @@
 from typing_extensions import Literal
 from langchain_core.messages import SystemMessage,HumanMessage
-from .prompts import get_system_prompt_for_classifier,get_human_prompt_for_classifier
+from .prompts import Prompts
 
 class ModelUtils:
     @staticmethod
     def get_classifier_message(image_path:str):
-        system_msg=SystemMessage(content=get_system_prompt_for_classifier())
+        system_msg=SystemMessage(content=Prompts.FOOD_IMG_CLASSIFIER_SYSTEM_PROMPT)
         human_msg=HumanMessage(
             content=[
                 {
                     "type":"text",
-                    "text":get_human_prompt_for_classifier()
+                    "text":Prompts.FOOD_IMG_CLASSIFIER_HUMAN_PROMPT
                 },
                 {
                     "type":"image_url",
