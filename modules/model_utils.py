@@ -1,5 +1,5 @@
 from typing_extensions import Literal
-from langchain_core.messages import SystemMessage,HumanMessage
+from langchain_core.messages import SystemMessage,HumanMessage,AIMessage
 from .prompts import Prompts
 
 class ModelUtils:
@@ -25,8 +25,8 @@ class ModelUtils:
         return classifier_message
 
     @staticmethod
-    def get_batch_classifier_messages(image_paths:list):
-        batch_messages=[]
-        for image_path in image_paths:
-            batch_messages.append(ModelUtils.get_classifier_message(image_path=image_path))
-        return batch_messages
+    def check_classifier_output(response:AIMessage):
+        output=str(response.content).strip()
+        if output not in {"0","1","2"}:
+            raise ValueError(f"Invalid output: {output}")
+        return output
