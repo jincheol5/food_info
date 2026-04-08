@@ -5,11 +5,16 @@ from modules import DataUtils,ModelUtils
 
 def img_classifier(**kwargs):
     """
+    To Do List:
+    - 분류 기준을 특정 단어가 아닌 구조 형식 (표 등) 고려하도록 프롬프트 엔지니어링
+    - 원재료와 영양 성분 같이 있는 경우 어떻게 처리할것인지?
+        - raw text 추출 먼저 한 뒤 분류?
+    - 유효값 도출 실패 시 프롬프트에 실패 사례 추가하여 피드백
     """
     # 이미지 가져오기
     food_list=DataUtils.get_food_list()
     image_paths=DataUtils.get_food_images(
-        food_id=food_list[kwargs["food_num"]]
+        food_id=food_list[1]
     )
 
     prompt=RunnableLambda(ModelUtils.get_classifier_message)
