@@ -1,7 +1,8 @@
 import argparse
-from langchain_core.runnables import RunnableLambda
+from pydantic import ValidationError
 from langchain_ollama import ChatOllama
-from modules import DataUtils,ModelUtils
+from langchain_core.runnables import RunnableLambda
+from modules import DataUtils,ModelUtils,NutritionSchema
 
 def nutrition_ETL(**kwargs):
     """
@@ -14,16 +15,21 @@ def nutrition_ETL(**kwargs):
         model=app_config['model_name'],
         base_url=f"http://localhost:{kwargs['port']}"
     )
-    check_output=RunnableLambda(ModelUtils.check_nutrition_etl_output)
+    model=model.with_structured_output(NutritionSchema) # 성공 시 결과값 NutritionSchema 객체, 실패 시 ValidationError
+    # with_structured_output
+    # 1. prompt에 형식 강제 내용 추가
+    # 2. 출력 json 으로 파싱 
+    # 3. pydantic 검증 .model_validate()
 
-    nutrition_etl_chain=(prompt|model|check_output).with_retry(
+    nutrition_etl_chain=(prompt|model).with_retry(
         stop_after_attempt=3,
-        retry_if_exception_type=(ValueError,)
+        retry_if_exception_type=(ValidationError,)
     )
 
     try:
         results=nutrition_etl_chain.batch(image_paths)
-    except ValueError as e:
+        results=[result.model_dump() for result in results] # NutritionSchema 객체들을 .model_dump 함수로 json 객체들로 변환
+    except ValidationError as e:
         print("영양성분 정보 추출 실패: ",e)
         results=None
     if results is not None:

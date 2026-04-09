@@ -97,12 +97,14 @@ class Prompts:
         - Ensure the output is always valid and parseable JSON.
         """).strip()
 
-    @staticmethod
-    def build_nutrition_human_prompt():
-        parser=PydanticOutputParser(pydantic_object=NutritionSchema)
-        format_instructions=parser.get_format_instructions()
-        return textwrap.dedent(f"""
-            Extract nutrition facts.
+    NUTRITION_HUMAN_PROMPT=f"""Extract nutrition facts."""
 
-            {format_instructions}
-            """).strip()
+    # @staticmethod
+    # def build_nutrition_human_prompt():
+    #     parser=PydanticOutputParser(pydantic_object=NutritionSchema)
+    #     format_instructions=parser.get_format_instructions()
+    #     return textwrap.dedent(f"""
+    #         Extract nutrition facts.
+
+    #         {format_instructions}
+    #         """).strip()

@@ -27,7 +27,7 @@ class DataUtils:
     
     @staticmethod
     def get_nutrition_images():
-        food_imgs_path=os.path.join(DataUtils.dir_path,"nutrition")
+        food_imgs_path=os.path.join(DataUtils.food_info_path,"nutrition")
         image_paths=[
             os.path.join(food_imgs_path,name) 
             for name in os.listdir(food_imgs_path)

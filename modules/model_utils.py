@@ -1,7 +1,5 @@
-from pydantic import ValidationError
 from langchain_core.messages import SystemMessage,HumanMessage,AIMessage
 from .prompts import Prompts
-from .schema import NutritionSchema
 
 class ModelUtils:
     @staticmethod
@@ -32,7 +30,7 @@ class ModelUtils:
             content=[
                 {
                     "type":"text",
-                    "text":Prompts.build_nutrition_human_prompt()
+                    "text":Prompts.NUTRITION_HUMAN_PROMPT
                 },
                 {
                     "type":"image_url",
@@ -51,13 +49,4 @@ class ModelUtils:
         output=str(response.content).strip()
         if output not in {"0","1","2"}:
             raise ValueError(f"Invalid output: {output}")
-        return output
-
-    @staticmethod
-    def check_nutrition_etl_output(response:AIMessage):
-        output=str(response.content).strip()
-        try:
-            NutritionSchema.model_validate_json(output)
-        except ValidationError:
-            raise ValueError(f"Invalid output")
         return output
