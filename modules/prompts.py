@@ -98,7 +98,7 @@ class Prompts:
         """).strip()
 
     @staticmethod
-    def build_nutrition_user_prompt():
+    def build_nutrition_human_prompt():
         parser=PydanticOutputParser(pydantic_object=NutritionSchema)
         format_instructions=parser.get_format_instructions()
         return textwrap.dedent(f"""
