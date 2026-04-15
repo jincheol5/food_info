@@ -12,7 +12,7 @@ def img_classifier(**kwargs):
     - 유효값 도출 실패 시 프롬프트에 실패 사례 추가하여 피드백
     """
     # 이미지 가져오기
-    food_list=DataUtils.get_food_list()
+    food_list=DataUtils.get_food_list_from_raw_imgs()
     image_paths=DataUtils.get_food_images(
         food_id=food_list[1]
     )

@@ -50,7 +50,7 @@ class DBInterface:
             self.connect_db()
         food_info_collection=self.db["food_info"]
         food_ids=list(
-            doc["food_id"]
+            doc["_id"]
             for doc in food_info_collection.find(
                 {"extracted":False,"validated":False}, # 조건 (filter)
                 {"_id":1} # 가져올 필드 (projection)
